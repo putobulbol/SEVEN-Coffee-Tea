@@ -99,7 +99,7 @@ function save_product_images(int $productId, array $files, PDO $pdo): array {
 }
 
 function product_payload(PDO $pdo, int $id): array {
-    $stmt = $pdo->prepare('SELECT id,name,description,category,price,status,is_bestseller,is_signature,created_at,updated_at FROM products WHERE id=?');
+    $stmt = $pdo->prepare('SELECT id,name,description,category,price,large_price,status,is_bestseller,is_signature,created_at,updated_at FROM products WHERE id=?');
     $stmt->execute([$id]);
     $product = $stmt->fetch();
     if (!$product) throw new RuntimeException('Product not found.');
@@ -108,6 +108,7 @@ function product_payload(PDO $pdo, int $id): array {
     $img->execute([$id]);
     $product['id'] = (int)$product['id'];
     $product['price'] = (float)$product['price'];
+    $product['large_price'] = $product['large_price'] !== null ? (float)$product['large_price'] : null;
     $product['images'] = $img->fetchAll();
 
     return $product;
@@ -141,7 +142,7 @@ try {
             $params[] = $category;
         }
 
-        $sql = 'SELECT id,name,description,category,price,status,is_bestseller,is_signature,created_at,updated_at FROM products';
+        $sql = 'SELECT id,name,description,category,price,large_price,status,is_bestseller,is_signature,created_at,updated_at FROM products';
         if ($where) $sql .= ' WHERE ' . implode(' AND ', $where);
         $sql .= ' ORDER BY id DESC';
 
@@ -156,6 +157,7 @@ try {
         foreach ($products as &$p) {
             $p['id'] = (int)$p['id'];
             $p['price'] = (float)$p['price'];
+            $p['large_price'] = $p['large_price'] !== null ? (float)$p['large_price'] : null;
             $p['is_bestseller'] = (int)$p['is_bestseller'];
             $p['is_signature'] = (int)$p['is_signature'];
             $p['images'] = $map[$p['id']] ?? [];
@@ -180,13 +182,9 @@ try {
         $placeholders = implode(',', array_fill(0, count($ids), '?'));
 
         if ($action === 'bulk_delete') {
-            $paths = $pdo->prepare("SELECT image_path FROM product_images WHERE product_id IN ($placeholders)");
-            $paths->execute($ids);
-            $files = $paths->fetchAll(PDO::FETCH_COLUMN);
-            $stmt = $pdo->prepare("DELETE FROM products WHERE id IN ($placeholders)");
+            $stmt = $pdo->prepare("UPDATE products SET status='hidden', available=0, is_bestseller=0, is_signature=0 WHERE id IN ($placeholders)");
             $stmt->execute($ids);
-            foreach ($files as $file) @unlink(__DIR__ . '/../' . ltrim((string)$file, '/'));
-            respond(['ok' => true, 'message' => count($ids) . ' product' . (count($ids) === 1 ? '' : 's') . ' deleted.']);
+            respond(['ok' => true, 'message' => count($ids) . ' product' . (count($ids) === 1 ? '' : 's') . ' archived. Sales history and images were preserved.']);
         }
 
         $category = product_normalize_category($pdo, (string)($_POST['category'] ?? ''));
@@ -206,14 +204,13 @@ try {
     if ($action === 'delete') {
         $id = (int)($_POST['id'] ?? 0);
         if ($id <= 0) respond(['ok' => false, 'message' => 'Invalid product ID.'], 422);
-        $paths = $pdo->prepare('SELECT image_path FROM product_images WHERE product_id=?');
-        $paths->execute([$id]);
-        $files = $paths->fetchAll(PDO::FETCH_COLUMN);
-        $stmt = $pdo->prepare('DELETE FROM products WHERE id=?');
+        $stmt = $pdo->prepare("UPDATE products SET status='hidden', available=0, is_bestseller=0, is_signature=0 WHERE id=?");
         $stmt->execute([$id]);
-        if ($stmt->rowCount() < 1) respond(['ok' => false, 'message' => 'Product not found.'], 404);
-        foreach ($files as $file) @unlink(__DIR__ . '/../' . ltrim((string)$file, '/'));
-        respond(['ok' => true, 'message' => 'Product deleted.']);
+        if ($stmt->rowCount() < 1) {
+            $check = $pdo->prepare('SELECT COUNT(*) FROM products WHERE id=?'); $check->execute([$id]);
+            if (!(int)$check->fetchColumn()) respond(['ok' => false, 'message' => 'Product not found.'], 404);
+        }
+        respond(['ok' => true, 'message' => 'Product archived. Sales history and images were preserved.']);
     }
 
     if ($action === 'remove_image') {
@@ -242,13 +239,19 @@ try {
     $description = trim((string)($_POST['description'] ?? ''));
     $category = product_normalize_category($pdo, (string)($_POST['category'] ?? ''), (int)($_POST['id'] ?? 0));
     $priceRaw = trim((string)($_POST['price'] ?? ''));
+    $largePriceRaw = trim((string)($_POST['large_price'] ?? ''));
     $status = trim((string)($_POST['status'] ?? 'active'));
     $isBestseller = (int)($_POST['is_bestseller'] ?? 0) === 1 ? 1 : 0;
     $isSignature = (int)($_POST['is_signature'] ?? 0) === 1 ? 1 : 0;
 
     if ($name === '') respond(['ok' => false, 'message' => 'Product name is required.'], 422);
     if ($category === '') $category = 'Uncategorized';
-    if ($priceRaw === '' || !is_numeric($priceRaw) || (float)$priceRaw < 0) respond(['ok' => false, 'message' => 'A valid product price is required.'], 422);
+    if ($priceRaw === '' || !is_numeric($priceRaw) || (float)$priceRaw < 0) respond(['ok' => false, 'message' => 'A valid Medium price is required.'], 422);
+    $largePrice = null;
+    if ($largePriceRaw !== '') {
+        if (!is_numeric($largePriceRaw) || (float)$largePriceRaw < 0) respond(['ok' => false, 'message' => 'Enter a valid Large price or leave it blank for single-size products.'], 422);
+        $largePrice = (float)$largePriceRaw;
+    }
     if (!product_status_is_valid($status)) $status = 'active';
 
     $available = $status === 'active' ? 1 : 0;
@@ -257,13 +260,13 @@ try {
 
     try {
         if ($action === 'create') {
-            $stmt = $pdo->prepare('INSERT INTO products (name,description,category,price,available,status,is_bestseller,is_signature) VALUES (?,?,?,?,?,?,?,?)');
-            $stmt->execute([$name, $description !== '' ? $description : null, $category, (float)$priceRaw, $available, $status, $isBestseller, $isSignature]);
+            $stmt = $pdo->prepare('INSERT INTO products (name,description,category,price,large_price,available,status,is_bestseller,is_signature) VALUES (?,?,?,?,?,?,?,?,?)');
+            $stmt->execute([$name, $description !== '' ? $description : null, $category, (float)$priceRaw, $largePrice, $available, $status, $isBestseller, $isSignature]);
             $id = (int)$pdo->lastInsertId();
         } elseif ($action === 'update') {
             if ($id <= 0) throw new RuntimeException('Invalid product ID.');
-            $stmt = $pdo->prepare('UPDATE products SET name=?,description=?,category=?,price=?,available=?,status=?,is_bestseller=?,is_signature=? WHERE id=?');
-            $stmt->execute([$name, $description !== '' ? $description : null, $category, (float)$priceRaw, $available, $status, $isBestseller, $isSignature, $id]);
+            $stmt = $pdo->prepare('UPDATE products SET name=?,description=?,category=?,price=?,large_price=?,available=?,status=?,is_bestseller=?,is_signature=? WHERE id=?');
+            $stmt->execute([$name, $description !== '' ? $description : null, $category, (float)$priceRaw, $largePrice, $available, $status, $isBestseller, $isSignature, $id]);
             if ($stmt->rowCount() === 0) {
                 $check = $pdo->prepare('SELECT COUNT(*) FROM products WHERE id=?');
                 $check->execute([$id]);
