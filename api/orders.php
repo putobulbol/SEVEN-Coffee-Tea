@@ -9,26 +9,30 @@ function product_id_from_value($value): int {
     return 0;
 }
 
-function large_size_surcharge(string $category): float {
-    return $category === 'Hot Beverages' ? 0.0 : 10.0;
+function large_size_surcharge(array $product): float {
+    if (($product['large_price'] ?? null) === null || $product['large_price'] === '') return 0.0;
+    return (float)$product['large_price'] - (float)$product['price'];
 }
 
 function customization_extra(array $c): float {
     $extra = 0.0;
-    if (($c['milk'] ?? 'None') === 'Oat Milk') $extra += 20.0;
-    if (($c['drizzle'] ?? 'None') !== 'None') $extra += 8.0;
+    if (($c['milk'] ?? 'None') === 'Oat Milk') $extra += 40.0;
+    if (($c['drizzle'] ?? 'None') !== 'None') $extra += 10.0;
     if (($c['syrup'] ?? 'None') !== 'None') $extra += 10.0;
     if (in_array(($c['sinker'] ?? 'None'), ['Pearls','Nata','Crushed Oreo'], true)) $extra += 10.0;
     if (($c['sinker'] ?? 'None') === 'Coffee Jelly') $extra += 15.0;
     if (($c['topping'] ?? 'None') !== 'None') $extra += 15.0;
-    if (($c['coffeeAddon'] ?? 'None') === 'Espresso Shot') $extra += 15.0;
+    if (($c['coffeeAddon'] ?? 'None') === 'Espresso Shot') $extra += 10.0;
     return $extra;
 }
 
 function item_price(array $product, array $customizations): float {
     $price = (float)$product['price'];
     if (($customizations['size'] ?? 'Medium') === 'Large') {
-        $price += large_size_surcharge((string)$product['category']);
+        if (($product['large_price'] ?? null) === null || $product['large_price'] === '') {
+            throw new RuntimeException('This drink is only available in Medium size.');
+        }
+        $price = (float)$product['large_price'];
     }
     return $price + customization_extra($customizations);
 }
@@ -159,7 +163,7 @@ try {
         $pdo->beginTransaction();
         $total = 0.0;
         $normalizedItems = [];
-        $findProduct = $pdo->prepare("SELECT id,name,category,price FROM products WHERE id=? AND status='active'");
+        $findProduct = $pdo->prepare("SELECT id,name,category,price,large_price FROM products WHERE id=? AND status='active'");
 
         foreach ($items as $item) {
             $productId = product_id_from_value($item['id'] ?? 0);
