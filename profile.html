@@ -1,0 +1,51 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Manage your SEVEN Coffee & Tea customer account details and password.">
+<title>My Profile — SEVEN Coffee & Tea</title>
+<link rel="stylesheet" href="css/account.css">
+<link rel="stylesheet" href="css/animations.css">
+<link rel="stylesheet" href="css/ui-polish.css">
+<link rel="stylesheet" href="css/enhancements.css">
+</head>
+<body class="profile-page">
+<main class="profile-shell">
+  <section class="profile-page-card" aria-labelledby="profileTitle">
+    <a class="profile-page-brand" href="index.html"><img src="assets/seven-logo.svg" alt="SEVEN Coffee & Tea logo"><span>SEVEN COFFEE &amp; TEA</span></a>
+    <div class="profile-page-heading"><p class="eyebrow">CUSTOMER ACCOUNT</p><h1 id="profileTitle">My Profile</h1><p>Keep your pickup contact details up to date.</p></div>
+    <div class="profile-orders" role="group" aria-label="Your orders">
+      <a class="profile-order-card" href="index.html?track=1"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span><strong>Active order</strong><small>Track your pickup status</small></span></a>
+      <a class="profile-order-card" href="orders.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h14v16l-3-2-2 2-2-2-2 2-2-2-3 2V4Z"/><path d="M9 9h6M9 13h6"/></svg><span><strong>Order history</strong><small>Past and completed orders</small></span></a>
+    </div>
+    <div id="profileNotice" class="profile-notice" role="status" aria-live="polite"></div>
+    <div class="profile-tabs" role="tablist" aria-label="Account settings">
+      <button class="profile-tab active" id="tabDetails" type="button" role="tab" aria-selected="true" aria-controls="profileDetailsPanel">Personal details</button>
+      <button class="profile-tab" id="tabPassword" type="button" role="tab" aria-selected="false" aria-controls="profilePasswordPanel" tabindex="-1">Change password</button>
+    </div>
+    <div id="profileDetailsPanel" role="tabpanel" aria-labelledby="tabDetails"><form id="profileForm" novalidate>
+      <div class="profile-field"><label for="profileName">Full name</label><input id="profileName" name="name" autocomplete="name" maxlength="120" required><small class="field-error" id="profileNameError"></small></div>
+      <div class="profile-field"><label for="profileContact">Contact number</label><input id="profileContact" name="contact_number" type="tel" autocomplete="tel" inputmode="tel" maxlength="40" placeholder="09XXXXXXXXX"><small class="field-error" id="profileContactError"></small></div>
+      <div class="profile-readonly"><div><span>Email address</span><strong id="profileEmail">Loading…</strong></div><div><span>Username</span><strong id="profileUsername">Loading…</strong></div></div>
+      <button class="profile-submit" id="saveProfile" type="submit">Save profile</button>
+    </form></div>
+    <div id="profilePasswordPanel" role="tabpanel" aria-labelledby="tabPassword" hidden><form id="passwordForm" novalidate>
+      <div class="profile-field"><label for="currentPassword">Current password</label><div class="password-wrap"><input id="currentPassword" name="current_password" type="password" autocomplete="current-password" required><button type="button" class="password-toggle" data-toggle-password="currentPassword" aria-label="Show password">Show</button></div></div>
+      <div class="profile-field"><label for="newPassword">New password</label><div class="password-wrap"><input id="newPassword" name="new_password" type="password" autocomplete="new-password" minlength="8" maxlength="64" required><button type="button" class="password-toggle" data-toggle-password="newPassword" aria-label="Show password">Show</button></div></div>
+      <div class="profile-field"><label for="confirmNewPassword">Confirm new password</label><div class="password-wrap"><input id="confirmNewPassword" type="password" autocomplete="new-password" required><button type="button" class="password-toggle" data-toggle-password="confirmNewPassword" aria-label="Show password">Show</button></div></div>
+      <button class="profile-submit secondary" id="changePassword" type="submit">Change password</button>
+    </form></div>
+    <div class="profile-page-actions">
+      <button class="profile-action-link logout" id="profileLogout" type="button">Log Out</button>
+    </div>
+    <a class="back-link" href="index.html">← Back to SEVEN Coffee &amp; Tea</a>
+  </section>
+</main>
+<script src="js/password-policy.js"></script>
+<script src="js/profile.js"></script>
+<script src="js/animations.js"></script>
+<script src="js/enhancements.js" defer></script>
+</body>
+</html>
+

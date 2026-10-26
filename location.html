@@ -1,0 +1,149 @@
+﻿<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Location — SEVEN Coffee & Tea</title>
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/location.css">
+    <link rel="stylesheet" href="css/nav.css">
+    <link rel="stylesheet" href="css/enhancements.css">
+    <link rel="stylesheet" href="css/guide.css">
+</head>
+
+<body class="page-location">
+    <header class="site-header">
+        <div class="wrap nav"><a class="brand" href="index.html"><img class="brand-logo" src="assets/seven-logo.svg"
+                    alt="SEVEN Coffee & Tea logo"><span>SEVEN COFFEE</span></a><button class="mobile-nav-toggle"
+                type="button" aria-label="Open navigation" aria-controls="locationNav" aria-expanded="false"><span
+                    class="hamburger-bars" aria-hidden="true"><i></i><i></i><i></i></span></button>
+            <nav class="links" id="locationNav"><a href="story.html">OUR STORY</a><a href="menu.html">MENU</a><a
+                    class="active" href="location.html">LOCATION</a><a href="orders.html">ORDERS</a></nav>
+            <div class="header-tools"><button class="header-icon" id="globalNotificationBtn" type="button"
+                    aria-label="Open notifications" title="Notifications"><svg class="icon-svg" viewBox="0 0 24 24"
+                        aria-hidden="true">
+                        <path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path>
+                        <path d="M10 21h4"></path>
+                    </svg></button><button class="cart-btn" id="openCart" type="button"
+                    aria-label="Open shopping cart"><svg class="icon-svg" viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M4 5h2l1.6 9.2a2 2 0 0 0 2 1.8h7.8a2 2 0 0 0 2-1.7L21 8H7"></path>
+                        <circle cx="10" cy="20" r="1.2"></circle>
+                        <circle cx="18" cy="20" r="1.2"></circle>
+                    </svg> <span class="count" id="cartCount">0</span></button><button class="profile-btn" type="button"
+                    id="globalProfileBtn" aria-label="Open customer profile"><span
+                        class="profile-avatar">7</span></button></div>
+        </div>
+    </header>
+    <main class="location-page">
+        <div class="wrap">
+            <h1 class="location-title">Location</h1>
+            <p class="location-subtitle">VISIT SEVEN · COFFEE · TEA · PICKUP</p>
+            <section class="location-panel">
+                <div class="location-photo"><img class="location-store-photo" src="assets/story-2.jpg"
+                        data-fallback="assets/coffee-story.jpg" alt="SEVEN Coffee &amp; Tea store photo placeholder"
+                        loading="lazy" onerror="this.onerror=null;this.src=this.dataset.fallback"></div>
+                <div class="location-map">
+                    <img class="map-image" src="assets/location-map.png" width="827" height="516" loading="lazy"
+                        alt="Map showing SEVEN Coffee &amp; Tea at Aurora Plaza on Aurora Blvd, Cubao, Quezon City, near the Technological Institute of the Philippines">
+                </div>
+                <div class="location-overlay">
+                    <h2>Come visit us.</h2>
+                    <p>Find your next coffee, milk tea, or refresher and enjoy an easy pickup break.</p>
+                </div>
+            </section>
+        </div>
+    </main>
+    <div class="backdrop" id="backdrop"></div>
+    <aside class="drawer" id="drawer" aria-hidden="true">
+        <div class="drawer-head">
+            <h2>Your Cart</h2><button class="close" id="closeCart" type="button">×</button>
+        </div>
+        <div class="items" id="cartItems"></div>
+        <div class="total"><strong>Total</strong><strong id="cartTotal">₱0</strong></div><button
+            class="btn primary checkout" id="checkoutBtn" type="button">Proceed to Checkout</button>
+    </aside>
+    <div class="modal" id="checkoutModal" aria-hidden="true">
+        <div class="modal-card">
+            <div class="modal-head">
+                <div>
+                    <div class="eyebrow" style="color:var(--gold)">Customer checkout</div>
+                    <h2>Complete your pickup order</h2>
+                </div><button class="close" id="closeCheckout" type="button">×</button>
+            </div>
+            <form id="checkoutForm">
+                <div class="field"><label for="name">Customer name</label><input id="name" name="customer_name"
+                        autocomplete="name" required placeholder="Guest"></div>
+                <div class="field"><label for="contact">Contact number</label><input id="contact" name="contact_number"
+                        autocomplete="tel" type="tel" inputmode="tel" required placeholder="09XXXXXXXXX"></div>
+                <div class="field pickup-time-fixed"><strong>Pickup</strong>
+                    <p>As soon as ready</p>
+                </div>
+                <div class="field"><label for="notes">Order notes <span
+                            style="font-weight:400;color:var(--muted)">(optional)</span></label><textarea id="notes"
+                        placeholder="Less ice, special instructions, etc."></textarea></div>
+                <div class="payment-box gcash-fields show" id="gcashFields"><strong>Payment Method</strong>
+                    <div class="payment-option"><span><b>GCash</b><br><small>GCash is the only payment method available
+                                for pickup orders.</small></span></div><strong>GCash Payment</strong>
+                    <p><small>GCash Number: 09XX XXX XXXX<br>Account Name: 7 Seven Coffee & Tea<br>Amount: <span
+                                id="gcashAmount">₱0</span></small></p>
+                    <div class="field"><label for="gcashScreenshot">GCash payment screenshot</label><input
+                            id="gcashScreenshot" type="file" accept="image/*" required></div>
+                    <div class="field"><label for="gcashReference">GCash reference number</label><input
+                            id="gcashReference" inputmode="numeric" pattern="[0-9]{13}" maxlength="13" minlength="13"
+                            required placeholder="Enter 13-digit reference number" title="Enter exactly 13 digits">
+                    </div>
+                </div>
+                <div class="summary" id="checkoutSummary"></div><button class="btn primary checkout" type="submit">Place
+                    Order</button>
+            </form>
+            <div class="success" id="success" hidden>
+                <div class="check">✓</div>
+                <h2>Order submitted</h2>
+                <p>Your pickup order has been recorded successfully.</p>
+                <div class="order-id" id="orderId"></div>
+                <p style="color:var(--muted)">GCash payments remain pending verification.</p>
+                <p style="color:var(--muted);margin:12px 0">Use the floating <strong>Track Order</strong> button to
+                    check your pickup status.</p><button class="btn checkout" id="done" type="button">Done</button>
+            </div>
+        </div>
+    </div>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <footer class="site-footer">
+        <div class="wrap">
+            <div class="footer-main">
+                <div class="footer-brand"><strong>SEVEN COFFEE &amp; TEA</strong>
+                    <p class="footer-tagline">Your everyday cup, done right. Browse the menu, customize your drink, and
+                        place a pickup order with ease.</p>
+                </div>
+                <div>
+                    <h3 class="footer-title">Explore</h3>
+                    <nav class="footer-links"><a href="index.html">Home</a><a href="story.html">Our Story</a><a
+                            href="menu.html">Menu</a><a href="location.html">Location</a><a href="faq.html">FAQ</a><a
+                            href="terms.html">Terms &amp; Conditions</a></nav>
+                </div>
+                <div>
+                    <h3 class="footer-title">Order</h3>
+                    <nav class="footer-links"><a href="menu.html">Browse Drinks</a><a href="?track=1">Track Order</a><a
+                            href="login.html">Customer Account</a></nav>
+                </div>
+                <div>
+                    <h3 class="footer-title">Follow Us</h3>
+                    <nav class="footer-socials"><a href="https://www.facebook.com/" target="_blank"
+                            rel="noopener noreferrer">Facebook</a><a href="https://www.instagram.com/" target="_blank"
+                            rel="noopener noreferrer">Instagram</a><a href="https://twitter.com/" target="_blank"
+                            rel="noopener noreferrer">Twitter</a></nav>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p class="footer-copy">© 2026 SEVEN Coffee &amp; Tea. All rights reserved.</p><button class="back-top"
+                    type="button" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑ Back to top</button>
+            </div>
+        </div>
+    </footer>
+    <script src="js/global.js" defer></script>
+    <script src="js/enhancements.js" defer></script>
+    <script src="js/guide.js" defer></script>
+</body>
+
+</html>

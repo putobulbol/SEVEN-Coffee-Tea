@@ -1,0 +1,48 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Customer sign-in for SEVEN Coffee & Tea pickup orders.">
+<title>Customer Sign In — SEVEN Coffee & Tea</title>
+<link rel="stylesheet" href="css/account.css">
+<link rel="stylesheet" href="css/animations.css"><link rel="stylesheet" href="css/ui-polish.css"><link rel="stylesheet" href="css/enhancements.css">
+</head>
+<body class="login-page">
+<main class="login-shell">
+  <section class="login-card" aria-labelledby="loginTitle">
+    <a class="login-brand" href="index.html">
+      <img src="assets/seven-logo.svg" alt="SEVEN Coffee & Tea logo">
+      <span>SEVEN COFFEE & TEA</span>
+    </a>
+    <div class="login-heading">
+      <p class="eyebrow">SEVEN ACCOUNT</p>
+      <h1 id="loginTitle">Welcome back</h1>
+      <p>Sign in to access your account.</p>
+    </div>
+    <form id="loginForm" novalidate>
+      <div class="login-field">
+        <label for="email">Email Address</label>
+        <input id="email" name="email" type="email" autocomplete="email" placeholder="Enter your registered email" required>
+        <small class="field-error" id="emailError"></small>
+      </div>
+      <div class="login-field">
+        <label for="password">Password</label>
+        <div class="password-wrap">
+          <input id="password" name="password" type="password" autocomplete="current-password" required>
+          <button type="button" id="togglePassword" aria-label="Show password">Show</button>
+        </div>
+        <small class="field-error" id="passwordError"></small>
+      </div>
+      <p class="login-message" id="loginMessage" role="alert" aria-live="polite"></p>
+      <button class="login-submit" type="submit">Log In</button>
+    </form>
+    <p class="account-link">Don't have an account? <a href="register.html">Create one</a></p>
+    <p class="account-link">Need to verify your email? <a href="register.html?verify=1">Enter or resend a code</a></p>
+    <a class="back-link" href="index.html">← Back to SEVEN Coffee & Tea</a>
+  </section>
+</main>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script><script src="js/account.js"></script>
+<script src="js/animations.js"></script><script src="js/enhancements.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,65 @@
+/* Terms and Conditions page styles. */
+.terms-shell {
+    width: min(900px, calc(100% - 32px));
+    margin: 42px auto 60px
+}
+
+.terms-card {
+    background: var(--paper, #fffdf7);
+    border: 1px solid var(--line, #dccbb0);
+    border-radius: 22px;
+    padding: clamp(22px, 5vw, 48px);
+    box-shadow: 0 16px 42px rgba(8, 47, 44, .08)
+}
+
+.terms-card h1,
+.terms-card h2 {
+    color: var(--green-dark, #082f2c)
+}
+
+.terms-card h1 {
+    font-size: clamp(28px, 4vw, 42px);
+    margin: 8px 0 10px
+}
+
+.terms-card h2 {
+    font-size: 18px;
+    margin: 26px 0 8px
+}
+
+.terms-card p,
+.terms-card li {
+    line-height: 1.7;
+    color: #405c56
+}
+
+.terms-card .eyebrow {
+    font-weight: 800;
+    letter-spacing: .12em;
+    color: #a87928;
+    font-size: 11px
+}
+
+.terms-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 44px;
+    margin-top: 20px;
+    padding: 10px 16px;
+    border-radius: 10px;
+    background: #082f2c;
+    color: #fff;
+    font-weight: 700;
+    text-decoration: none
+}
+
+.terms-back::before {
+    content: "\2039";
+    font-size: 18px;
+    line-height: 1
+}
+
+.terms-back:hover {
+    background: #144b46
+}

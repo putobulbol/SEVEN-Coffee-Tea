@@ -1,0 +1,99 @@
+﻿<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Shopping Cart — SEVEN Coffee & Tea</title>
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/cart.css">
+    <link rel="stylesheet" href="css/nav.css">
+    <link rel="stylesheet" href="css/enhancements.css">
+    <link rel="stylesheet" href="css/guide.css">
+</head>
+
+<body class="page-cart">
+    <header class="site-header">
+        <div class="wrap nav"><a class="brand" href="index.html"><img class="brand-logo" src="assets/seven-logo.svg"
+                    alt="SEVEN Coffee & Tea logo"><span>SEVEN COFFEE</span></a><button class="mobile-nav-toggle"
+                type="button" aria-label="Open navigation" aria-controls="cartNav" aria-expanded="false"><span
+                    class="hamburger-bars" aria-hidden="true"><i></i><i></i><i></i></span></button>
+            <nav class="links" id="cartNav" aria-label="Primary navigation"><a href="story.html">OUR STORY</a><a
+                    href="menu.html">MENU</a><a href="location.html">LOCATION</a><a href="orders.html">ORDERS</a></nav>
+            <div class="header-tools"><button class="header-icon" id="globalNotificationBtn" type="button"
+                    aria-label="Open notifications" title="Notifications"><svg class="icon-svg" viewBox="0 0 24 24"
+                        aria-hidden="true">
+                        <path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path>
+                        <path d="M10 21h4"></path>
+                    </svg></button><a class="cart-btn" href="cart.html" aria-label="Shopping cart"><svg class="icon-svg"
+                        viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M4 5h2l1.6 9.2a2 2 0 0 0 2 1.8h7.8a2 2 0 0 0 2-1.7L21 8H7"></path>
+                        <circle cx="10" cy="20" r="1.2"></circle>
+                        <circle cx="18" cy="20" r="1.2"></circle>
+                    </svg></a><button class="profile-btn" type="button" id="globalProfileBtn"
+                    aria-label="Open customer profile"><span class="profile-avatar">7</span></button></div>
+        </div>
+    </header>
+    <main class="cart-page">
+        <div class="wrap">
+            <h1 class="cart-title">Shopping Cart</h1>
+            <div id="cartEmpty" class="center-title" hidden>
+                <p>Your cart is empty.</p><a class="add-more" href="menu.html">Add More</a>
+            </div>
+            <div class="cart-table-scroll">
+                <table class="cart-table" id="cartTable">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody id="cartRows"></tbody>
+                </table>
+            </div>
+            <div class="cart-actions"><a class="add-more" href="menu.html">Add More</a></div>
+            <div class="cart-summary"><strong>Sub Total: <span id="subtotal">₱0.00</span></strong><a
+                    class="checkout-link" href="menu.html?checkout=1">Check Out</a></div>
+        </div>
+    </main>
+    <footer class="site-footer">
+        <div class="wrap">
+            <div class="footer-main">
+                <div class="footer-brand"><strong>SEVEN COFFEE &amp; TEA</strong>
+                    <p class="footer-tagline">Your everyday cup, done right. Browse the menu, customize your drink, and
+                        place a pickup order with ease.</p>
+                </div>
+                <div>
+                    <h2 class="footer-title">Explore</h2>
+                    <nav class="footer-links"><a href="index.html">Home</a><a href="story.html">Our Story</a><a
+                            href="menu.html">Menu</a><a href="location.html">Location</a><a href="faq.html">FAQ</a><a
+                            href="terms.html">Terms &amp; Conditions</a></nav>
+                </div>
+                <div>
+                    <h2 class="footer-title">Order</h2>
+                    <nav class="footer-links"><a href="menu.html">Browse Drinks</a><a href="?track=1">Track Order</a><a
+                            href="login.html">Customer Account</a></nav>
+                </div>
+                <div>
+                    <h2 class="footer-title">Follow Us</h2>
+                    <nav class="footer-socials"><a href="https://www.facebook.com/" target="_blank"
+                            rel="noopener noreferrer">Facebook</a><a href="https://www.instagram.com/" target="_blank"
+                            rel="noopener noreferrer">Instagram</a><a href="https://twitter.com/" target="_blank"
+                            rel="noopener noreferrer">Twitter</a></nav>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p class="footer-copy">© 2026 SEVEN Coffee &amp; Tea. All rights reserved.</p><button class="back-top"
+                    type="button" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑ Back to top</button>
+            </div>
+        </div>
+    </footer>
+    <script src="js/global.js" defer></script>
+    <script src="js/cart.js" defer></script>
+    <script src="js/enhancements.js" defer></script>
+    <script src="js/guide.js" defer></script>
+</body>
+
+</html>

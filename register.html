@@ -1,0 +1,108 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Customer registration for SEVEN Coffee & Tea">
+<title>Create Account — SEVEN Coffee & Tea</title>
+<link rel="stylesheet" href="css/account.css">
+<link rel="stylesheet" href="css/animations.css"><link rel="stylesheet" href="css/ui-polish.css"><link rel="stylesheet" href="css/enhancements.css">
+<link rel="stylesheet" href="css/guide.css">
+</head>
+<body class="register-page">
+<main class="register-shell">
+  <section class="register-card" aria-labelledby="registerTitle">
+    <a class="register-brand" href="index.html">
+      <img src="assets/seven-logo.svg" alt="SEVEN Coffee & Tea logo">
+      <span>SEVEN COFFEE & TEA</span>
+    </a>
+
+    <div class="register-heading">
+      <p class="eyebrow">CUSTOMER ACCOUNT</p>
+      <h1 id="registerTitle">Create your account</h1>
+      <p>Register to place and track your pickup orders.</p>
+    </div>
+
+    <form id="registerForm" novalidate>
+      <div class="register-field">
+        <label for="fullName">Full Name</label>
+        <input id="fullName" name="name" type="text" autocomplete="name" minlength="2" maxlength="120" required>
+        <small class="field-error" id="fullNameError"></small>
+      </div>
+
+      <div class="register-field">
+        <label for="email">Email Address</label>
+        <input id="email" name="email" type="email" autocomplete="email" maxlength="190" required>
+        <small class="field-help">Use Gmail or a school email ending in .edu, such as .edu.ph.</small>
+        <small class="field-error" id="emailError"></small>
+      </div>
+
+      <div class="register-field">
+        <label for="contactNumber">Contact Number</label>
+        <input id="contactNumber" name="contact_number" type="tel" autocomplete="tel" inputmode="tel" maxlength="40" placeholder="09XXXXXXXXX" required>
+        <small class="field-error" id="contactNumberError"></small>
+      </div>
+      <div class="register-field">
+        <label for="username">Username</label>
+        <input id="username" name="username" type="text" autocomplete="username" minlength="3" maxlength="15" pattern="[A-Za-z0-9._\-]{3,15}" aria-describedby="usernameHelp" required>
+        <small class="field-help" id="usernameHelp">3–15 characters: letters, numbers, dot (.), underscore (_) or hyphen (-).</small>
+        <small class="field-error" id="usernameError"></small>
+      </div>
+
+      <div class="register-field">
+        <label for="password">Password</label>
+        <div class="password-wrap">
+          <input id="password" name="password" type="password" autocomplete="new-password" minlength="8" maxlength="64" required>
+          <button type="button" id="togglePassword" aria-label="Show password">Show</button>
+        </div>
+        <small class="field-error" id="passwordError"></small>
+      </div>
+
+      <div class="register-field">
+        <label for="confirmPassword">Confirm Password</label>
+        <div class="password-wrap">
+          <input id="confirmPassword" name="confirmPassword" type="password" autocomplete="new-password" required>
+          <button type="button" id="toggleConfirmPassword" aria-label="Show password">Show</button>
+        </div>
+        <small class="field-error" id="confirmPasswordError"></small>
+      </div>
+
+      <div class="register-field terms-consent">
+        <label for="termsAccepted"><input id="termsAccepted" name="terms_accepted" type="checkbox" required> I have read and agree to the <a href="terms.html?from=register" target="_blank" rel="noopener">Terms and Conditions</a>.</label>
+        <small class="field-error" id="termsAcceptedError"></small>
+      </div>
+
+      <p class="register-message" id="registerMessage" role="alert" aria-live="polite"></p>
+      <button class="register-submit" type="submit">Create Account</button>
+    </form>
+
+    <section id="emailVerificationStep" class="email-verification-step" hidden aria-labelledby="verificationTitle">
+      <div class="verification-heading">
+        <h2 id="verificationTitle">Enter verification code</h2>
+        <p id="verificationEmailText">We sent a six-digit code to your email.</p>
+      </div>
+      <form id="emailVerificationForm" novalidate>
+        <div class="register-field">
+          <label for="verificationCode">Six-digit code</label>
+          <input id="verificationCode" name="code" type="text" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]{6}" minlength="6" maxlength="6" required>
+          <small class="field-error" id="verificationCodeError"></small>
+        </div>
+        <p id="verificationMessage" class="register-message" role="status" aria-live="polite"></p>
+        <button class="register-submit" type="submit">Verify email</button>
+      </form>
+      <button class="verification-resend" id="resendVerificationCode" type="button">Resend code</button>
+      <p id="verificationResendNote" class="field-help">Codes expire after 10 minutes. Resend is limited to once every 60 seconds.</p>
+      <p id="verificationContinue" class="account-link" hidden><a href="login.html">Continue to Log In</a></p>
+    </section>
+
+    <p class="account-link">New to SEVEN? <button class="guide-inline-link" type="button" data-open-guide>See how ordering works</button></p>
+    <p class="account-link">Already have an account? <a href="login.html">Log in</a></p>
+    <p class="register-note">Customer registration only. Admin and staff accounts are provisioned by the system administrator.</p>
+    <a class="back-link" href="index.html">← Back to SEVEN Coffee & Tea</a>
+  </section>
+</main>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script><script src="js/password-policy.js"></script><script src="js/account.js"></script>
+<script src="js/animations.js"></script><script src="js/enhancements.js" defer></script>
+<script src="js/guide.js" defer></script>
+</body>
+</html>

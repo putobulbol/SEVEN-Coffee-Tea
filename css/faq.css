@@ -1,0 +1,144 @@
+/* FAQ uses the shared storefront header/footer and nav layout. */
+.page-faq {
+    background: #fff;
+    color: var(--ink, #18312f)
+}
+
+.faq-page {
+    padding: 18px 0 54px;
+    background: #fff
+}
+
+.faq-hero {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 30px 20px 24px;
+    text-align: center
+}
+
+.faq-kicker {
+    margin-bottom: 8px;
+    color: var(--gold, #c9973c);
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: .16em
+}
+
+.faq-hero h1 {
+    margin: 0;
+    color: var(--green-dark, #082f2c);
+    font-family: var(--font-script);
+    font-size: clamp(38px, 5vw, 54px);
+    font-weight: 500;
+    line-height: 1.08
+}
+
+.faq-hero p {
+    max-width: 620px;
+    margin: 12px auto 0;
+    color: #52645f;
+    font-size: 14px;
+    line-height: 1.6
+}
+
+.faq-content {
+    width: min(860px, calc(100% - 32px));
+    margin: 0 auto;
+    display: grid;
+    gap: 28px
+}
+
+.faq-section h2 {
+    margin: 0 0 12px;
+    color: var(--green-dark, #082f2c);
+    font-size: 23px;
+    letter-spacing: -.02em
+}
+
+.faq-item {
+    margin: 0 0 10px;
+    border: 1px solid #e3dacb;
+    border-radius: 12px;
+    background: #fffdf8;
+    overflow: hidden
+}
+
+.faq-item summary {
+    position: relative;
+    display: block;
+    min-height: 54px;
+    padding: 17px 48px 16px 18px;
+    color: #082f2c;
+    font-size: 14px;
+    font-weight: 800;
+    line-height: 1.4;
+    cursor: pointer;
+    list-style: none
+}
+
+.faq-item summary::-webkit-details-marker {
+    display: none
+}
+
+.faq-item summary:after {
+    content: "+";
+    position: absolute;
+    right: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #9a6d22;
+    font-size: 22px;
+    font-weight: 500
+}
+
+.faq-item[open] summary:after {
+    content: "−"
+}
+
+.faq-item summary:focus-visible {
+    outline: 3px solid #c9973c;
+    outline-offset: -3px
+}
+
+.faq-answer {
+    padding: 0 18px 18px;
+    color: #40534e;
+    font-size: 13px;
+    line-height: 1.7
+}
+
+.faq-answer p {
+    margin: 0
+}
+
+.faq-answer strong {
+    color: #173d38
+}
+
+@media(max-width:600px) {
+    .faq-page {
+        padding-top: 8px
+    }
+
+    .faq-hero {
+        padding: 24px 18px 20px
+    }
+
+    .faq-hero p {
+        font-size: 13px
+    }
+
+    .faq-section h2 {
+        font-size: 20px
+    }
+
+    .faq-item summary {
+        font-size: 13px;
+        padding: 15px 42px 15px 14px
+    }
+
+    .faq-answer {
+        padding: 0 14px 15px;
+        font-size: 12px
+    }
+}
