@@ -4,9 +4,17 @@
 USE seven_coffee;
 START TRANSACTION;
 
-ALTER TABLE products
-  ADD COLUMN large_price DECIMAL(10,2) NULL AFTER price,
-  ADD COLUMN catalog_version TINYINT UNSIGNED NOT NULL DEFAULT 0 AFTER large_price;
+SET @has_large_price = (SELECT COUNT(*) FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'products' AND COLUMN_NAME = 'large_price');
+SET @sql_large_price = IF(@has_large_price = 0, 'ALTER TABLE products ADD COLUMN large_price DECIMAL(10,2) NULL AFTER price', 'SELECT 1');
+PREPARE stmt_large_price FROM @sql_large_price;
+EXECUTE stmt_large_price;
+DEALLOCATE PREPARE stmt_large_price;
+
+SET @has_catalog_version = (SELECT COUNT(*) FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'products' AND COLUMN_NAME = 'catalog_version');
+SET @sql_catalog_version = IF(@has_catalog_version = 0, 'ALTER TABLE products ADD COLUMN catalog_version TINYINT UNSIGNED NOT NULL DEFAULT 0 AFTER large_price', 'SELECT 1');
+PREPARE stmt_catalog_version FROM @sql_catalog_version;
+EXECUTE stmt_catalog_version;
+DEALLOCATE PREPARE stmt_catalog_version;
 
 UPDATE products
 SET status='hidden', available=0, is_bestseller=0, is_signature=0
