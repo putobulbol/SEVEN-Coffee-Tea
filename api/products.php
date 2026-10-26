@@ -6,7 +6,7 @@ try {
     $pdo = db();
 
     $stmt = $pdo->query(
-        "SELECT id, name, description, category, price, status, is_bestseller, is_signature
+        "SELECT id, name, description, category, price, large_price, status, is_bestseller, is_signature
          FROM products
          WHERE status IN ('active','out_of_stock')
          ORDER BY id ASC"
@@ -28,6 +28,7 @@ try {
         $id = (int)$row['id'];
         $category = (string)$row['category'];
         $price = (float)$row['price'];
+        $largePrice = $row['large_price'] !== null ? (float)$row['large_price'] : null;
         $imageList = $images[$id] ?? [];
         $isHot = $category === 'Hot Beverages';
 
@@ -37,7 +38,7 @@ try {
             'description' => (string)($row['description'] ?? ''),
             'category' => $category,
             'prices' => $price > 0
-                ? ($isHot ? ['medium' => $price] : ['medium' => $price, 'large' => $price + 10])
+                ? (['medium' => $price] + ($largePrice !== null ? ['large' => $largePrice] : []))
                 : null,
             'available' => (string)$row['status'] === 'active',
             'status' => (string)$row['status'],
@@ -48,8 +49,7 @@ try {
         ];
     }, $rows);
 
-    // Rank active products by sales that the store has verified or paid.
-    // Exclude cancelled orders; use the admin checkbox only to fill remaining slots.
+    // Rank active catalog products only by qualifying verified/paid, non-cancelled sales.
     $productById = [];
     foreach ($products as $product) {
         if (($product['status'] ?? '') === 'active') $productById[(string)$product['id']] = $product;
@@ -67,7 +67,6 @@ try {
          LIMIT 5"
     );
     $bestSellers = [];
-    $seenBestSellerIds = [];
     foreach ($salesStmt->fetchAll() as $sale) {
         $key = 'p' . (int)$sale['id'];
         if (!isset($productById[$key])) continue;
@@ -75,18 +74,6 @@ try {
         $candidate['total_sold'] = (int)$sale['total_sold'];
         $candidate['last_sale_at'] = (string)($sale['last_sale_at'] ?? '');
         $bestSellers[] = $candidate;
-        $seenBestSellerIds[$key] = true;
-    }
-    if (count($bestSellers) < 5) {
-        foreach ($products as $product) {
-            $key = (string)($product['id'] ?? '');
-            if (($product['status'] ?? '') !== 'active' || empty($product['is_bestseller']) || isset($seenBestSellerIds[$key])) continue;
-            $product['total_sold'] = 0;
-            $product['last_sale_at'] = '';
-            $bestSellers[] = $product;
-            $seenBestSellerIds[$key] = true;
-            if (count($bestSellers) >= 5) break;
-        }
     }
 
     respond(['ok' => true, 'products' => $products, 'best_sellers' => $bestSellers]);

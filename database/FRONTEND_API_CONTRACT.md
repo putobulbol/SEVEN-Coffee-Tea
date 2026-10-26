@@ -11,11 +11,12 @@
 
 1. Import `database/seven.sql` into MySQL.
 2. Run `database/frontend_menu_contract.sql` after it when upgrading an older database.
+3. Run `database/catalog_menu_migration.sql` once to archive the prior catalog and insert the new menu while preserving historical orders.
 3. Run `database/admin_order_history.sql` on an existing database to add admin history indexes.
 3. Run `database/customer_order_history.sql` on an existing database to add the account/date index for customer-history pagination.
 3. Configure the `SEVEN_DB_*` and `SEVEN_APP_ORIGIN` environment variables for non-default deployments.
 
-The base schema includes `products.is_bestseller` and `products.is_signature`. Runtime GET requests do not modify the database schema.
+The base schema includes `products.large_price` for explicit Large pricing, `products.catalog_version` for catalog migration tracking, and `products.is_signature`. Best Sellers are calculated from qualifying sales; the legacy `is_bestseller` field is not used as a fallback.
 
 ## Customer authentication
 
@@ -44,7 +45,7 @@ The customer frontend sends `multipart/form-data` with:
 
 GCash is the current supported payment method. The server stores the payment as `submitted` until an administrator verifies it.
 
-The API does not trust the frontend total. It resolves products from MySQL and recalculates the base price, size surcharge, and allowed customization add-ons on the server.
+The API does not trust the frontend total. It resolves products from MySQL and recalculates the selected Medium or Large price and allowed customization add-ons on the server.
 
 ## Customer order tracking
 
@@ -93,7 +94,7 @@ Registration creates an unverified customer without an authenticated customer se
 
 ## Best sellers
 
-`GET api/products.php` also returns up to five active products in `best_sellers`, ranked by quantity sold on verified/paid non-cancelled orders. Ties sort by most recent sale and then name. Admin-selected fallback products fill remaining slots when fewer than five products have qualifying sales. The menu refreshes on load and every three minutes. Run `database/best_seller_sales.sql` on existing databases to add the `order_items(product_id)` index.
+`GET api/products.php` also returns up to five active products in `best_sellers`, ranked by quantity sold on verified/paid non-cancelled orders. Ties sort by most recent sale and then name. No manual fallback is used; products without qualifying sales do not appear in Best Sellers. The menu refreshes on load and every three minutes. Run `database/best_seller_sales.sql` on existing databases to add the `order_items(product_id)` index.
 
 ## FAQ content constraints
 

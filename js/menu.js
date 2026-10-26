@@ -64,12 +64,12 @@ function renderMenu() {
 }
 /* Add-on price table. Must match customization_extra() in api/orders.php. */
 const ADDON_GROUPS = [
-  { name: 'milk', title: 'Milk Choice', icon: '<path d="M8 3h8v3l2 3v12H6V9l2-3V3Z"/><path d="M6 13h12"/>', opts: [['None', 0], ['Oat Milk', 20]] },
-  { name: 'drizzle', title: 'Drizzle', icon: '<path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11Z"/>', opts: [['None', 0], ['Chocolate Drizzle', 8], ['Caramel Drizzle', 8]] },
+  { name: 'milk', title: 'Milk Choice', icon: '<path d="M8 3h8v3l2 3v12H6V9l2-3V3Z"/><path d="M6 13h12"/>', opts: [['None', 0], ['Oat Milk', 40]] },
+  { name: 'drizzle', title: 'Drizzle', icon: '<path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11Z"/>', opts: [['None', 0], ['Chocolate Drizzle', 10], ['Caramel Drizzle', 10], ['Strawberry Drizzle', 10]] },
   { name: 'syrup', title: 'Syrup', icon: '<path d="M10 2h4v4l2 3v12H8V9l2-3V2Z"/><path d="M8 14h8"/>', opts: [['None', 0], ['Flavored Syrup', 10]] },
-  { name: 'sinker', title: 'Sinkers', icon: '<circle cx="8" cy="15" r="2.5"/><circle cx="15" cy="16" r="2.5"/><circle cx="12" cy="9" r="2.5"/>', opts: [['None', 0], ['Pearls', 10], ['Nata', 10], ['Crushed Oreo', 10], ['Coffee Jelly', 15]] },
-  { name: 'topping', title: 'Toppings', icon: '<path d="M5 15a4 4 0 0 1 2-7.5 5 5 0 0 1 9.5-.5A4 4 0 0 1 19 15Z"/><path d="M6 15h12l-1 5H7l-1-5Z"/>', opts: [['None', 0], ['Cream Cheese', 15], ['Whipping Cream', 15], ['Salty Cream', 15], ['Sea Salt Cream', 15], ['Fresh Jam', 15]] },
-  { name: 'coffeeAddon', title: 'Coffee Add-on', icon: '<ellipse cx="12" cy="12" rx="6" ry="8.5" transform="rotate(35 12 12)"/><path d="M8.5 17.5c2-3 5-8 7-11"/>', opts: [['None', 0], ['Espresso Shot', 15]], when: function (p, hot) { return p.category.includes('Coffee') || hot || p.category.includes('Salty Cream') } }
+  { name: 'sinker', title: 'Sinkers', icon: '<circle cx="8" cy="15" r="2.5"/><circle cx="15" cy="16" r="2.5"/><circle cx="12" cy="9" r="2.5"/>', opts: [['None', 0], ['Pearls', 10], ['Nata', 10], ['Crushed Oreo', 10], ['Coffee Jelly', 15], ['Popping Boba SB', 15]] },
+  { name: 'topping', title: 'Toppings', icon: '<path d="M5 15a4 4 0 0 1 2-7.5 5 5 0 0 1 9.5-.5A4 4 0 0 1 19 15Z"/><path d="M6 15h12l-1 5H7l-1-5Z"/>', opts: [['None', 0], ['Cream Cheese', 15], ['Cheesecake', 15], ['Whipping Cream', 15], ['Salty Cream', 15], ['Sea Salt Cream', 15], ['Fresh Jam', 15]] },
+  { name: 'coffeeAddon', title: 'Coffee Add-on', icon: '<ellipse cx="12" cy="12" rx="6" ry="8.5" transform="rotate(35 12 12)"/><path d="M8.5 17.5c2-3 5-8 7-11"/>', opts: [['None', 0], ['Espresso Shot', 10]], when: function (p, hot) { return p.category.includes('Coffee') || hot || p.category.includes('Salty Cream') } }
 ];
 const SWEETNESS_LEVELS = ['0%', '25%', '50%', '75%', '100%'];
 function czIcon(paths) { return '<svg class="cz-icon" viewBox="0 0 24 24" aria-hidden="true">' + paths + '</svg>' }
@@ -125,7 +125,7 @@ renderCategories(); renderMenu();
     return { id: p.id, name: p.name, category: p.category, prices: p.prices, desc: p.description || p.desc || 'SEVEN Coffee & Tea menu item.', image: p.image || MENU_IMAGE, images: p.images || [], available: p.available !== false, status: p.status || 'active', isBestseller: Number(p.is_bestseller ?? p.isBestseller) === 1, isSignature: Number(p.is_signature ?? p.isSignature) === 1, totalSold: Number(p.total_sold ?? p.totalSold) || 0, lastSaleAt: p.last_sale_at || p.lastSaleAt || '' };
   }
   function listNow() {
-    const source = Array.isArray(window.sevenBestSellerProducts) ? window.sevenBestSellerProducts : products.filter(function (p) { return p && p.status === "active" && p.available !== false && p.isBestseller });
+    const source = Array.isArray(window.sevenBestSellerProducts) ? window.sevenBestSellerProducts : products.filter(function (p) { return p && p.status === "active" && p.available !== false && Number(p.totalSold) > 0 });
     return source.filter(function (p) { return p && p.status === "active" && p.available !== false }).slice(0, 5);
   }
   function render() {
@@ -137,7 +137,7 @@ renderCategories(); renderMenu();
     if (!list.length) {
       const loading = !Array.isArray(window.sevenBestSellerProducts) && !products.length;
       if (!status) { status = document.createElement("div"); status.className = "empty featured-status"; status.setAttribute("role", "status"); root.insertAdjacentElement("afterend", status) }
-      status.textContent = loading ? "Loading best sellers…" : "Best sellers will appear after qualifying sales. Admin-selected fallback products are used when fewer than five have sales.";
+      status.textContent = loading ? "Loading best sellers…" : "Best sellers will appear after qualifying sales. Only products with qualifying sales are shown.";
       root.style.display = "none"; clearInterval(rotationTimer); return;
     }
     if (status) status.remove();
