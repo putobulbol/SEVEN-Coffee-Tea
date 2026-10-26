@@ -20,7 +20,7 @@ function customization_extra(array $c): float {
     if (($c['drizzle'] ?? 'None') !== 'None') $extra += 10.0;
     if (($c['syrup'] ?? 'None') !== 'None') $extra += 10.0;
     if (in_array(($c['sinker'] ?? 'None'), ['Pearls','Nata','Crushed Oreo'], true)) $extra += 10.0;
-    if (($c['sinker'] ?? 'None') === 'Coffee Jelly') $extra += 15.0;
+    if (in_array(($c['sinker'] ?? 'None'), ['Coffee Jelly','Popping Boba SB'], true)) $extra += 15.0;
     if (($c['topping'] ?? 'None') !== 'None') $extra += 15.0;
     if (($c['coffeeAddon'] ?? 'None') === 'Espresso Shot') $extra += 10.0;
     return $extra;
