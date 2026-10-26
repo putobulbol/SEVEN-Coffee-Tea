@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+<title>SEVEN Coffee &amp; Tea logo</title>
+<desc>White stylized seven cup mark.</desc>
+<g fill="#fff">
+  <path d="M598 72h64v160l-22 100h-92l-15-104z"/>
+  <path d="M314 250c0-20 16-36 36-36h356c20 0 36 16 36 36v96c0 20-16 36-36 36H350c-20 0-36-16-36-36z"/>
+  <path d="M308 418h404v126H308z"/>
+  <path d="M340 515h404L570 918H415l152-286H415v72H340z"/>
+</g>
+</svg>

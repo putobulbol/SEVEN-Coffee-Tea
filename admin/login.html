@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>Admin Sign In — SEVEN Coffee &amp; Tea</title>
+  <link rel="stylesheet" href="css/login.css">
+</head>
+
+<body class="admin-login-page">
+  <main class="admin-login-shell">
+    <section class="admin-login-card" aria-labelledby="adminLoginTitle">
+      <div class="admin-login-brand">
+        <span class="admin-login-mark"><img src="../assets/seven-logo.svg" alt=""></span>
+        <span><strong>SEVEN</strong><small>STORE ADMIN</small></span>
+      </div>
+      <h1 id="adminLoginTitle">Staff sign in</h1>
+      <p class="admin-login-sub">For the store owner and staff only.</p>
+
+      <form id="adminLoginForm" novalidate>
+        <div class="admin-login-field">
+          <label for="adminEmail">Email address</label>
+          <input id="adminEmail" name="email" type="email" autocomplete="username" maxlength="190" required>
+          <small class="admin-login-error" id="adminEmailError"></small>
+        </div>
+        <div class="admin-login-field">
+          <label for="adminPassword">Password</label>
+          <div class="admin-login-password">
+            <input id="adminPassword" name="password" type="password" autocomplete="current-password" maxlength="4096"
+              required>
+            <button type="button" id="adminTogglePassword" aria-label="Show password"
+              aria-controls="adminPassword">Show</button>
+          </div>
+          <small class="admin-login-error" id="adminPasswordError"></small>
+        </div>
+        <p class="admin-login-message" id="adminLoginMessage" role="alert" aria-live="polite"></p>
+        <button class="admin-login-submit" id="adminLoginSubmit" type="submit">Sign in</button>
+      </form>
+
+      <p class="admin-login-foot">Admin accounts are created by the store owner in the database. <a
+          href="../index.html">Back to the store</a></p>
+    </section>
+  </main>
+  <script src="js/login.js"></script>
+</body>
+
+</html>

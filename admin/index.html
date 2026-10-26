@@ -1,0 +1,126 @@
+﻿<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>SEVEN Admin Dashboard</title>
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+  <script src="js/auth.js"></script>
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/index.css">
+  <link rel="stylesheet" href="css/polish.css">
+  <link rel="stylesheet" href="../css/animations.css">
+  <link rel="stylesheet" href="../css/enhancements.css">
+</head>
+
+<body>
+  <div class="app">
+    <button class="sidebar-backdrop" id="sidebarBackdrop" type="button" aria-label="Close navigation" hidden></button>
+    <aside class="sidebar" id="sidebar">
+      <div class="admin-brand">
+        <a href="index.html" aria-label="SEVEN Admin dashboard">
+          <span class="admin-brand-mark"><img src="../assets/seven-logo.svg" alt="SEVEN"></span>
+          <span class="admin-brand-copy"><strong>SEVEN</strong><small>STORE ADMIN</small></span>
+        </a>
+      </div>
+      <nav class="nav" aria-label="Admin navigation">
+        <div class="nav-section-label">STORE MANAGEMENT</div>
+        <a class="active" href="index.html" aria-current="page"><svg class="nav-icon" viewBox="0 0 24 24"
+            aria-hidden="true">
+            <path d="M4 4h6v6H4V4Zm10 0h6v6h-6V4ZM4 14h6v6H4v-6Zm10 0h6v6h-6v-6Z" />
+          </svg><span>Dashboard</span></a>
+        <a class="" href="orders.html"><svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M6 4h12a2 2 0 0 1 2 2v13H4V6a2 2 0 0 1 2-2Zm1 3v2h10V7H7Zm0 5v2h7v-2H7Z" />
+          </svg><span>Orders</span></a>
+        <a class="" href="products.html"><svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M5 4h14v3H5V4Zm0 6h14v3H5v-3Zm0 6h14v3H5v-3Z" />
+          </svg><span>Products</span></a>
+        <a class="" href="banners.html"><svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M4 5a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5Zm3 1v7l3-2 3 2 4-3v-4H7Z" />
+          </svg><span>Carousel Banners</span></a>
+        <div class="nav-section-label storefront-label">CUSTOMER WEBSITE</div>
+        <a href="../menu.html"><svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path
+              d="M7 3h2v8a2 2 0 0 1-2 2v8H5v-8a2 2 0 0 1-2-2V3h2v6h1V3h1Zm9 0h2v5h2v2h-2v11h-2V10a4 4 0 0 1-4-4V3h2v5a2 2 0 0 0 2 2V3Z" />
+          </svg><span>View Menu</span></a>
+        <a href="../index.html"><svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="m12 3 9 8h-2v9h-5v-6h-4v6H5v-9H3l9-8Z" />
+          </svg><span>Open Storefront</span></a>
+      </nav>
+    </aside>
+
+
+    <div class="main">
+      <header class="topbar">
+        <div style="display:flex;align-items:center;min-width:0"><button class="mobile-menu" id="mobileMenu"
+            type="button" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="sidebar"
+            title="Toggle navigation menu"><span class="hamburger-bars"
+              aria-hidden="true"><i></i><i></i><i></i></span></button>
+          <div class="topbar-title"><strong>Dashboard</strong></div>
+        </div>
+        <div class="top-actions"><button class="icon-btn" type="button" onclick="loadStats()" title="Refresh dashboard"
+            aria-label="Refresh dashboard"><svg viewBox="0 0 24 24" width="18" height="18" fill="none"
+              stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
+              aria-hidden="true">
+              <path d="M20 7v5h-5" />
+              <path d="M4 17v-5h5" />
+              <path d="M5.6 9A7 7 0 0 1 17.5 6.5L20 12M4 12l2.5 5.5A7 7 0 0 0 18.4 15" />
+            </svg></button>
+          <div class="avatar" role="img" title="Administrator" aria-label="Administrator profile">A</div>
+        </div>
+      </header>
+      <main class="content" id="dashboard">
+        <div class="welcome">
+          <div>
+            <h1>Good day, Admin ☕</h1>
+          </div>
+
+        </div>
+        <div id="message" class="message"></div>
+        <div class="stats dashboard-stats">
+          <div class="stat">
+            <div class="stat-top"><span class="stat-label">Total Orders</span><span class="stat-icon">#</span></div>
+            <div class="stat-value" id="statTotal">0</div>
+            <div class="stat-note" id="statTotalNote">All time</div>
+          </div>
+          <div class="stat stat-sales">
+            <div class="stat-top"><span class="stat-label">Today's Sales</span><span class="stat-icon">₱</span></div>
+            <div class="stat-value" id="statSales">₱0.00</div>
+            <div class="stat-note" id="statSalesNote">0 qualifying orders today</div><a class="stat-report-link"
+              id="salesReportsLink" href="sales.html" hidden>View sales reports <span aria-hidden="true">↗</span></a>
+          </div>
+          <div class="stat">
+            <div class="stat-top"><span class="stat-label">This Week</span><span class="stat-icon">▤</span></div>
+            <div class="stat-value" id="statWeekSales">₱0.00</div>
+            <div class="stat-note" id="statWeekNote">0 qualifying orders</div>
+          </div>
+          <div class="stat">
+            <div class="stat-top"><span class="stat-label">This Month</span><span class="stat-icon">▦</span></div>
+            <div class="stat-value" id="statMonthSales">₱0.00</div>
+            <div class="stat-note" id="statMonthNote">0 qualifying orders</div>
+          </div>
+          <div class="stat">
+            <div class="stat-top"><span class="stat-label">To Prepare</span><span class="stat-icon">☕</span></div>
+            <div class="stat-value" id="statPrepare">0</div>
+            <div class="stat-note">Awaiting or being prepared</div>
+          </div>
+          <div class="stat">
+            <div class="stat-top"><span class="stat-label">Payment Review</span><span class="stat-icon">✓</span></div>
+            <div class="stat-value" id="statPayment">0</div>
+            <div class="stat-note">GCash payments to check</div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+  <script src="js/index.js"></script>
+  <script src="js/notifications.js"></script>
+  <script src="../js/animations.js"></script>
+  <script src="js/global.js"></script>
+  <script src="../js/enhancements.js" defer></script>
+</body>
+
+</html>

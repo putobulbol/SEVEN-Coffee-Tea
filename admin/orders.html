@@ -1,0 +1,249 @@
+﻿<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>SEVEN Admin — Orders</title>
+
+  <script src="js/auth.js"></script>
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/orders.css">
+  <link rel="stylesheet" href="css/polish.css">
+  <link rel="stylesheet" href="../css/animations.css">
+  <link rel="stylesheet" href="../css/enhancements.css">
+</head>
+
+<body>
+  <div class="app">
+    <button class="sidebar-backdrop" id="sidebarBackdrop" type="button" aria-label="Close navigation" hidden></button>
+    <aside class="sidebar" id="sidebar">
+      <div class="admin-brand"><a href="index.html" aria-label="SEVEN Admin dashboard"><span
+            class="admin-brand-mark"><img src="../assets/seven-logo.svg" alt="SEVEN"></span><span
+            class="admin-brand-copy"><strong>SEVEN</strong><small>STORE ADMIN</small></span></a></div>
+      <nav class="nav" aria-label="Admin navigation">
+        <div class="nav-section-label">STORE MANAGEMENT</div>
+        <a href="index.html"><svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M4 4h6v6H4V4Zm10 0h6v6h-6V4ZM4 14h6v6H4v-6Zm10 0h6v6h-6v-6Z" />
+          </svg><span>Dashboard</span></a>
+        <a class="active" href="orders.html" aria-current="page"><svg class="nav-icon" viewBox="0 0 24 24"
+            aria-hidden="true">
+            <path d="M6 4h12a2 2 0 0 1 2 2v13H4V6a2 2 0 0 1 2-2Zm1 3v2h10V7H7Zm0 5v2h7v-2H7Z" />
+          </svg><span>Orders</span></a>
+        <a class="nav-sub-link" href="orders.html#history">Order History</a>
+        <a href="products.html"><svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M5 4h14v3H5V4Zm0 6h14v3H5v-3Zm0 6h14v3H5v-3Z" />
+          </svg><span>Products</span></a>
+        <a href="banners.html"><svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M4 5a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5Zm3 1v7l3-2 3 2 4-3v-4H7Z" />
+          </svg><span>Carousel Banners</span></a>
+        <div class="nav-section-label storefront-label">CUSTOMER WEBSITE</div>
+        <a href="../menu.html"><svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path
+              d="M7 3h2v8a2 2 0 0 1-2 2v8H5v-8a2 2 0 0 1-2-2V3h2v6h1V3h1Zm9 0h2v5h2v2h-2v11h-2V10a4 4 0 0 1-4-4V3h2v5a2 2 0 0 1 2 2V3Z" />
+          </svg><span>View Menu</span></a>
+        <a href="../index.html"><svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="m12 3 9 8h-2v9h-5v-6h-4v6H5v-9H3l9-8Z" />
+          </svg><span>Open Storefront</span></a>
+      </nav>
+    </aside>
+
+    <div class="main">
+      <header class="topbar">
+        <div style="display:flex;align-items:center;min-width:0"><button class="mobile-menu" id="mobileMenu"
+            type="button" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="sidebar"
+            title="Toggle navigation menu"><span class="hamburger-bars"
+              aria-hidden="true"><i></i><i></i><i></i></span></button>
+          <div class="topbar-title"><strong>Orders</strong></div>
+        </div>
+        <div class="top-actions"><button class="icon-btn" type="button" onclick="loadOrders()" title="Refresh orders"
+            aria-label="Refresh orders"><svg viewBox="0 0 24 24" width="18" height="18" fill="none"
+              stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
+              aria-hidden="true">
+              <path d="M20 7v5h-5" />
+              <path d="M4 17v-5h5" />
+              <path d="M5.6 9A7 7 0 0 1 17.5 6.5L20 12M4 12l2.5 5.5A7 7 0 0 0 18.4 15" />
+            </svg></button>
+          <div class="avatar" role="img" title="Administrator" aria-label="Administrator profile">A</div>
+        </div>
+      </header>
+      <main class="content">
+        <div class="welcome">
+          <div>
+            <h1>Orders &amp; Pickup</h1>
+            <p>Review GCash payments, prepare drinks, and mark orders ready for pickup.</p>
+          </div>
+        </div>
+        <div id="message" class="message"></div>
+        <div class="order-view-tabs" role="tablist" aria-label="Order views"><a class="order-view-tab active"
+            id="currentOrdersTab" href="#current" role="tab" aria-selected="true"
+            aria-controls="currentOrdersView">Current Orders</a><a class="order-view-tab" id="orderHistoryTab"
+            href="#history" role="tab" aria-selected="false" aria-controls="orderHistoryView">Order History</a></div>
+        <section id="currentOrdersView" class="order-view-panel" role="tabpanel" aria-labelledby="currentOrdersTab">
+          <section class="kds-summary" aria-label="Order summary">
+            <div class="summary-card"><span>Payments to Review</span><strong id="countVerification">0</strong></div>
+            <div class="summary-card"><span>To Prepare</span><strong id="countPrepare">0</strong></div>
+            <div class="summary-card"><span>Preparing</span><strong id="countPreparing">0</strong></div>
+            <div class="summary-card"><span>Ready</span><strong id="countReady">0</strong></div>
+            <div class="summary-card"><span>Rejected Payments</span><strong id="countRejected">0</strong></div>
+          </section>
+          <div class="kds-bar">
+            <div>
+              <h2>Current orders</h2>
+              <p>Orders are shown oldest first in each stage.</p>
+            </div>
+            <div class="last-updated" id="lastUpdated">—</div>
+          </div>
+          <section class="queues" id="queues" aria-label="Kitchen order queues">
+            <div class="queue">
+              <div class="queue-head"><strong>Payment Review</strong><span id="queueVerification">0</span></div>
+              <div class="queue-body" id="queueVerificationBody"></div>
+            </div>
+
+
+
+            <div class="queue">
+              <div class="queue-head"><strong>To Prepare</strong><span id="queuePrepare">0</span></div>
+              <div class="queue-body" id="queuePrepareBody"></div>
+            </div>
+            <div class="queue">
+              <div class="queue-head"><strong>Preparing</strong><span id="queuePreparing">0</span></div>
+              <div class="queue-body" id="queuePreparingBody"></div>
+            </div>
+            <div class="queue">
+              <div class="queue-head"><strong>Ready for Pick-Up</strong><span id="queueReady">0</span></div>
+              <div class="queue-body" id="queueReadyBody"></div>
+            </div>
+          </section>
+        </section>
+        <section id="orderHistoryView" class="order-view-panel" role="tabpanel" aria-labelledby="orderHistoryTab"
+          hidden>
+          <div class="history-toolbar">
+            <div>
+              <h2>Order History</h2>
+              <p>Completed, cancelled and payment-rejected orders. Read-only records.</p>
+            </div>
+            <div class="history-toolbar-actions"><button type="button" id="exportHistoryCsv"
+                class="history-export-button">Export CSV</button><button type="button" class="history-filter-chip"
+                data-date-filter="today">Today</button> <button type="button" class="history-filter-chip"
+                data-date-filter="week">This week</button> <button type="button" class="history-filter-chip"
+                data-date-filter="month">This month</button></div>
+          </div>
+          <div class="history-status-pills" role="group" aria-label="Filter by order status"><button type="button"
+              data-status-pill="all">All</button><button type="button"
+              data-status-pill="completed">Completed</button><button type="button"
+              data-status-pill="cancelled">Cancelled</button><button type="button"
+              data-status-pill="payment_rejected">Payment rejected</button><button type="button"
+              data-status-pill="counted_as_sales">Counted as sales</button></div>
+          <div class="history-summary">
+            <div class="summary-card"><span>Matching orders</span><strong id="historySummaryCount">0</strong></div>
+            <div class="summary-card"><span>Counted as sales (matching orders)</span><strong
+                id="historySummarySales">₱0.00</strong></div>
+          </div>
+          <form id="historyFilters" class="history-filters"><label>Search<input id="historySearch" type="search"
+                maxlength="120" placeholder="Order number, customer, contact"></label><label
+              class="history-status-select">Order status<select id="historyStatus">
+                <option value="all">All statuses</option>
+                <option value="completed">Completed</option>
+                <option value="cancelled">Cancelled</option>
+                <option value="payment_rejected">Payment rejected</option>
+                <option value="counted_as_sales">Counted as sales</option>
+              </select></label><label>From<input id="historyFrom" type="date"></label><label>To<input id="historyTo"
+                type="date"></label><button class="refresh" type="submit">Apply filters</button><button
+              class="history-clear" id="historyClear" type="button">Clear</button></form>
+          <p class="history-result-count" id="historyResultCount" aria-live="polite">Load order history to begin.</p>
+          <div class="history-table-wrap">
+            <table class="history-table">
+              <thead>
+                <tr>
+                  <th>Order</th>
+                  <th>Date / time placed</th>
+                  <th>Customer / contact</th>
+                  <th>Items</th>
+                  <th>Total</th>
+                  <th>Payment</th>
+                  <th>Order status</th>
+                  <th>Last updated</th>
+                </tr>
+              </thead>
+              <tbody id="historyTableBody">
+                <tr>
+                  <td colspan="8">Open Order History to load past orders.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="history-mobile-list" id="historyMobileList"></div>
+          <div class="history-pagination"><button id="historyPrev" type="button" disabled>Previous</button><span
+              id="historyPageLabel">Page 1 of 1</span><button id="historyNext" type="button" disabled>Next</button>
+          </div>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+  <div class="new-order-alert" id="newOrderAlert" role="status" aria-live="polite" hidden>
+    <div class="new-order-alert-copy"><strong id="newOrderAlertTitle">New order received</strong><span
+        id="newOrderAlertBody">A new pickup order has arrived.</span></div>
+    <button id="dismissNewOrderAlert" type="button" aria-label="Dismiss new order alert">×</button>
+    <div class="new-order-alert-actions"><button class="primary" id="openOrdersFromAlert" type="button">View
+        order</button></div>
+  </div>
+
+  <div class="modal-backdrop" id="verifyBackdrop" hidden>
+    <section class="verify-modal" role="dialog" aria-modal="true" aria-labelledby="verifyTitle">
+      <header class="verify-head">
+        <h2 id="verifyTitle">Review GCash Payment</h2><button class="verify-close" id="verifyClose" type="button"
+          aria-label="Close payment verification">×</button>
+      </header>
+      <div class="verify-body">
+        <div class="verify-details">
+          <div class="detail"><span>Customer</span><strong id="verifyCustomer">—</strong></div>
+          <div class="detail"><span>GCash Reference Number</span><strong id="verifyReference">—</strong></div>
+          <div class="detail"><span>Total Amount</span><strong id="verifyAmount">₱0.00</strong></div>
+        </div>
+        <div class="payment-proof" id="proofImage">
+          <div class="proof-placeholder">Payment proof will appear here.</div>
+        </div>
+        <p class="toast-note">Check that the 13-digit reference, receipt, amount, and recipient all match before
+          confirming payment.</p>
+        <div class="verify-actions"><button class="reject-payment" id="rejectPayment" type="button">Reject
+            Payment</button><button class="confirm-payment" id="confirmPayment" type="button">Confirm Payment</button>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div class="modal-backdrop history-modal-backdrop" id="historyDetailBackdrop" hidden>
+    <section class="verify-modal history-detail-modal" role="dialog" aria-modal="true"
+      aria-labelledby="historyDetailTitle">
+      <header class="verify-head">
+        <h2 id="historyDetailTitle">Order details</h2><button class="verify-close" id="historyDetailClose" type="button"
+          aria-label="Close order history details">×</button>
+      </header>
+      <div class="verify-body">
+        <div id="historyDetailMeta" class="history-detail-meta"></div>
+        <div id="historyDetailItems" class="history-detail-items"></div>
+        <dl id="historyDetailFields" class="history-detail-fields"></dl>
+        <div>
+          <h3>GCash payment proof</h3>
+          <div class="payment-proof" id="historyProofImage">
+            <div class="proof-placeholder">Payment proof will appear here.</div>
+          </div>
+        </div>
+        <div>
+          <h3>Payment log</h3>
+          <div id="historyPaymentLogs" class="history-payment-logs"></div>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script src="js/orders.js"></script>
+  <script src="js/notifications.js"></script>
+  <script src="../js/animations.js"></script>
+  <script src="js/global.js"></script>
+  <script src="../js/enhancements.js" defer></script>
+</body>
+
+</html>

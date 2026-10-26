@@ -1,0 +1,232 @@
+/* Shared admin foundation; page-specific rules follow in their own files. */
+* {
+  box-sizing: border-box
+}
+
+html {
+  scroll-behavior: smooth
+}
+
+/* ===== Admin notification bell (admin/js/notifications.js) ===== */
+.admin-bell {
+  position: relative;
+  display: inline-flex;
+}
+
+.admin-bell-button {
+  position: relative;
+}
+
+.admin-bell-count {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  border: 2px solid #fffdf8;
+  background: #b94a45;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 900;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.admin-bell-count[hidden] {
+  display: none;
+}
+
+.admin-bell-panel {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  z-index: 120;
+  width: min(360px, calc(100vw - 24px));
+  border: 1px solid #e3dacb;
+  border-radius: 16px;
+  background: #fffdf8;
+  color: #18312f;
+  box-shadow: 0 18px 48px rgba(8, 47, 44, .18);
+  overflow: hidden;
+}
+
+.admin-bell-panel[hidden] {
+  display: none;
+}
+
+.admin-bell-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 14px 16px;
+  border-bottom: 1px solid #ece4d6;
+}
+
+.admin-bell-head strong {
+  font-size: 15px;
+  font-weight: 900;
+  color: #082f2c;
+}
+
+.admin-bell-markall {
+  min-height: 32px;
+  padding: 0 10px;
+  border: 1px solid #e3dacb;
+  border-radius: 9px;
+  background: #fff;
+  color: #082f2c;
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.admin-bell-markall:hover:not(:disabled) {
+  border-color: #c9973c;
+  background: #fbf4e6;
+}
+
+.admin-bell-markall:disabled {
+  opacity: .45;
+  cursor: default;
+}
+
+.admin-bell-list {
+  max-height: min(60vh, 420px);
+  overflow-y: auto;
+}
+
+.admin-bell-item {
+  position: relative;
+  display: flex;
+  gap: 10px;
+  padding: 12px 34px 12px 14px;
+  border-bottom: 1px solid #f1eadf;
+  color: inherit;
+  text-decoration: none;
+}
+
+.admin-bell-item:hover,
+.admin-bell-item:focus-visible {
+  background: #fbf6ec;
+}
+
+.admin-bell-item.unread {
+  background: #fffaf0;
+}
+
+.admin-bell-item.unread strong {
+  color: #082f2c;
+}
+
+.admin-bell-icon {
+  flex: 0 0 32px;
+  width: 32px;
+  height: 32px;
+  padding: 7px;
+  border-radius: 10px;
+  background: #f4e7c9;
+  fill: none;
+  stroke: #082f2c;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.admin-bell-text {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.admin-bell-text strong {
+  font-size: 13px;
+  font-weight: 800;
+  color: #3d4f4c;
+}
+
+.admin-bell-text span {
+  font-size: 12px;
+  line-height: 1.4;
+  color: #5a6f6b;
+  overflow-wrap: anywhere;
+}
+
+.admin-bell-text time {
+  font-size: 11px;
+  color: #8b948e;
+}
+
+.admin-bell-dot {
+  position: absolute;
+  top: 18px;
+  right: 14px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #c9973c;
+}
+
+.admin-bell-empty {
+  margin: 0;
+  padding: 24px 16px;
+  text-align: center;
+  color: #5a6f6b;
+  font-size: 13px;
+}
+
+.admin-bell-foot {
+  display: grid;
+  gap: 6px;
+  padding: 12px 16px;
+  border-top: 1px solid #ece4d6;
+  background: #fbf8f2;
+}
+
+.admin-bell-alerts {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 32px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #082f2c;
+  cursor: pointer;
+}
+
+.admin-bell-alerts input {
+  width: 16px;
+  height: 16px;
+  accent-color: #082f2c;
+}
+
+.admin-bell-alert-status {
+  margin: 0;
+  font-size: 11px;
+  color: #5a6f6b;
+}
+
+.admin-bell-alert-status:empty {
+  display: none;
+}
+
+.admin-bell-all {
+  justify-self: start;
+  color: #082f2c;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+@media (max-width: 520px) {
+  .admin-bell-panel {
+    position: fixed;
+    top: 64px;
+    right: 12px;
+    left: 12px;
+    width: auto;
+  }
+}

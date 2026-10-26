@@ -1,0 +1,181 @@
+﻿<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>SEVEN Carousel Banners</title>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+  <script src="js/auth.js"></script>
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/banners.css">
+  <link rel="stylesheet" href="css/polish.css">
+  <link rel="stylesheet" href="../css/animations.css">
+  <link rel="stylesheet" href="../css/enhancements.css">
+</head>
+
+<body>
+  <div class="app">
+    <button class="sidebar-backdrop" id="sidebarBackdrop" type="button" aria-label="Close navigation" hidden></button>
+    <aside class="side" id="side">
+      <div class="admin-brand">
+        <a href="index.html" aria-label="SEVEN Admin dashboard">
+          <span class="admin-brand-mark"><img src="../assets/seven-logo.svg" alt="SEVEN"></span>
+          <span class="admin-brand-copy"><strong>SEVEN</strong><small>STORE ADMIN</small></span>
+        </a>
+      </div>
+      <nav class="nav" aria-label="Admin navigation">
+        <div class="nav-section-label">STORE MANAGEMENT</div>
+        <a class="" href="index.html"><svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M4 4h6v6H4V4Zm10 0h6v6h-6V4ZM4 14h6v6H4v-6Zm10 0h6v6h-6v-6Z" />
+          </svg><span>Dashboard</span></a>
+        <a href="orders.html"><svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M6 4h12a2 2 0 0 1 2 2v13H4V6a2 2 0 0 1 2-2Zm1 3v2h10V7H7Zm0 5v2h7v-2H7Z" />
+          </svg><span>Orders</span></a>
+        <a class="" href="products.html"><svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M5 4h14v3H5V4Zm0 6h14v3H5v-3Zm0 6h14v3H5v-3Z" />
+          </svg><span>Products</span></a>
+        <a class="active" href="banners.html" aria-current="page"><svg class="nav-icon" viewBox="0 0 24 24"
+            aria-hidden="true">
+            <path d="M4 5a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5Zm3 1v7l3-2 3 2 4-3v-4H7Z" />
+          </svg><span>Carousel Banners</span></a>
+        <div class="nav-section-label storefront-label">CUSTOMER WEBSITE</div>
+        <a href="../menu.html"><svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path
+              d="M7 3h2v8a2 2 0 0 1-2 2v8H5v-8a2 2 0 0 1-2-2V3h2v6h1V3h1Zm9 0h2v5h2v2h-2v11h-2V10a4 4 0 0 1-4-4V3h2v5a2 2 0 0 0 2 2V3Z" />
+          </svg><span>View Menu</span></a>
+        <a href="../index.html"><svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="m12 3 9 8h-2v9h-5v-6h-4v6H5v-9H3l9-8Z" />
+          </svg><span>Open Storefront</span></a>
+      </nav>
+    </aside>
+    <div class="main">
+      <header class="top">
+        <div style="display:flex;align-items:center;min-width:0"><button id="mobile" class="mobile" type="button"
+            aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="side"
+            title="Toggle navigation menu"><span class="hamburger-bars"
+              aria-hidden="true"><i></i><i></i><i></i></span></button>
+          <div>
+            <h1>Banner Management</h1>
+          </div>
+        </div>
+        <div class="top-actions"><button class="icon-btn" type="button" title="Refresh banners"
+            aria-label="Refresh banners" onclick="load()"><svg viewBox="0 0 24 24" width="18" height="18" fill="none"
+              stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
+              aria-hidden="true">
+              <path d="M20 7v5h-5" />
+              <path d="M4 17v-5h5" />
+              <path d="M5.6 9A7 7 0 0 1 17.5 6.5L20 12M4 12l2.5 5.5A7 7 0 0 0 18.4 15" />
+            </svg></button>
+          <div class="avatar" role="img" title="Administrator" aria-label="Administrator profile">A</div>
+        </div>
+      </header>
+      <main class="content">
+        <div class="intro">
+          <div>
+            <h2>Homepage Banners</h2>
+            <p>Use a wide image. Heading, description, and button are optional.</p>
+          </div><button class="btn primary" id="newBanner">+ Add Banner</button>
+        </div>
+        <div id="message"></div>
+        <div class="banner-stats" role="group" aria-label="Banner overview">
+          <div class="banner-stat"><span>Total Banners</span><strong id="statTotal">0</strong></div>
+          <div class="banner-stat"><span>Shown</span><strong id="statBannerActive">0</strong></div>
+          <div class="banner-stat"><span>Hidden</span><strong id="statBannerInactive">0</strong></div>
+          <div class="banner-stat banner-tip"><span>Tip</span><strong>Drag rows to reorder</strong></div>
+        </div>
+        <div class="layout">
+          <section class="panel banner-workspace">
+            <div class="head">
+              <h3>Banner List</h3>
+            </div>
+            <div class="tableWrap">
+              <table class="table banner-table">
+                <colgroup>
+                  <col style="width:44px">
+                  <col style="width:170px">
+                  <col style="width:230px">
+                  <col style="width:240px">
+                  <col style="width:130px">
+                  <col style="width:110px">
+                  <col style="width:210px">
+                </colgroup>
+                <thead>
+                  <tr>
+                    <th class="check-col"><input class="row-check" id="selectAll" type="checkbox"
+                        aria-label="Select all banners"></th>
+                    <th>Preview</th>
+                    <th>Title</th>
+                    <th>Button Link</th>
+                    <th>Position</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="list"></tbody>
+              </table>
+              <div class="empty" id="empty">Loading...</div>
+            </div>
+          </section>
+        </div>
+        <div class="batch-toolbar" id="batchToolbar" hidden><span id="batchCount">0 Selected</span><button
+            class="btn small" id="batchActivate" type="button">Show</button><button class="btn small"
+            id="batchDeactivate" type="button">Hide</button><button class="btn small danger" id="batchDelete"
+            type="button">Delete</button><button class="btn small" id="clearSelection" type="button">Clear</button>
+        </div>
+        <div class="admin-modal" id="bannerModal" hidden>
+          <div class="admin-modal-backdrop" data-close-banner-modal></div>
+          <section class="admin-modal-card admin-banner-modal" role="dialog" aria-modal="true"
+            aria-labelledby="formTitle">
+            <header class="admin-modal-head">
+              <div><span class="admin-modal-eyebrow">Homepage</span>
+                <h3 id="formTitle">Add Banner</h3>
+              </div><button class="admin-modal-close" id="closeBannerModal" type="button"
+                aria-label="Close banner form">×</button>
+            </header>
+            <form class="form admin-modal-form" id="form"><input type="hidden" id="id">
+              <div class="admin-modal-grid">
+                <div class="admin-modal-column">
+                  <div class="form-section-title">Banner image</div>
+                  <div class="field"><label>Banner Image</label><label class="drop admin-upload-drop custom-upload-drop"
+                      id="bannerDrop" for="image"><input id="image" type="file"
+                        accept="image/jpeg,image/png,image/webp"><span class="upload-icon"
+                        aria-hidden="true">↑</span><span class="upload-copy"><strong id="uploadText">Upload banner
+                          image</strong><span class="helper" style="display:block">or click to browse · PNG, JPG, WebP ·
+                          up to 50 MB.</span></span></label></div>
+                  <div class="preview" id="preview">Image preview</div>
+                </div>
+                <div class="admin-modal-column">
+                  <div class="form-section-title">Banner text &amp; button</div>
+                  <div class="field"><label>Heading</label><input id="title" placeholder="Optional heading"></div>
+                  <div class="field"><label>Subtitle / Description</label><textarea id="description"
+                      placeholder="Optional description"></textarea></div>
+                  <div class="two">
+                    <div class="field"><label>Button Text</label><input id="ctaLabel" placeholder="View Menu"></div>
+                    <div class="field"><label>Position</label><input id="order" type="number" value="1"></div>
+                  </div>
+                  <div class="form-section-title compact">Button link &amp; visibility</div>
+                  <div class="field"><label>Button Link</label><input id="ctaUrl" placeholder="menu.html">
+                    <div class="helper">Enter the page customers should open when they click the button.</div>
+                  </div><label class="admin-check"><input id="active" type="checkbox" checked><span>Show this banner on
+                      the customer website</span></label>
+                </div>
+              </div>
+              <footer class="admin-modal-actions"><span class="updated-at" id="updatedAt"></span><button class="btn"
+                  id="clear" type="button">Cancel</button><button class="btn primary" type="submit">Save Banner</button>
+              </footer>
+            </form>
+          </section>
+        </div>
+      </main>
+    </div>
+  </div>
+  <script src="js/banners.js"></script>
+  <script src="js/notifications.js"></script>
+  <script src="../js/animations.js"></script>
+  <script src="js/global.js"></script>
+  <script src="../js/enhancements.js" defer></script>
+</body>
+
+</html>

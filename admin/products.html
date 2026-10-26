@@ -1,0 +1,227 @@
+﻿<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>SEVEN Product Management</title>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+  <script src="js/auth.js"></script>
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/products.css">
+  <link rel="stylesheet" href="css/polish.css">
+  <link rel="stylesheet" href="../css/animations.css">
+  <link rel="stylesheet" href="../css/enhancements.css">
+</head>
+
+<body>
+  <div class="app">
+    <button class="sidebar-backdrop" id="sidebarBackdrop" type="button" aria-label="Close navigation" hidden></button>
+    <aside class="side" id="side">
+      <div class="admin-brand">
+        <a href="index.html" aria-label="SEVEN Admin dashboard">
+          <span class="admin-brand-mark"><img src="../assets/seven-logo.svg" alt="SEVEN"></span>
+          <span class="admin-brand-copy"><strong>SEVEN</strong><small>STORE ADMIN</small></span>
+        </a>
+      </div>
+      <nav class="nav" aria-label="Admin navigation">
+        <div class="nav-section-label">STORE MANAGEMENT</div>
+        <a class="" href="index.html"><svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M4 4h6v6H4V4Zm10 0h6v6h-6V4ZM4 14h6v6H4v-6Zm10 0h6v6h-6v-6Z" />
+          </svg><span>Dashboard</span></a>
+        <a class="" href="orders.html"><svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M6 4h12a2 2 0 0 1 2 2v13H4V6a2 2 0 0 1 2-2Zm1 3v2h10V7H7Zm0 5v2h7v-2H7Z" />
+          </svg><span>Orders</span></a>
+        <a class="active" href="products.html" aria-current="page"><svg class="nav-icon" viewBox="0 0 24 24"
+            aria-hidden="true">
+            <path d="M5 4h14v3H5V4Zm0 6h14v3H5v-3Zm0 6h14v3H5v-3Z" />
+          </svg><span>Products</span></a>
+        <a class="" href="banners.html"><svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M4 5a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5Zm3 1v7l3-2 3 2 4-3v-4H7Z" />
+          </svg><span>Carousel Banners</span></a>
+        <div class="nav-section-label storefront-label">CUSTOMER WEBSITE</div>
+        <a href="../menu.html"><svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path
+              d="M7 3h2v8a2 2 0 0 1-2 2v8H5v-8a2 2 0 0 1-2-2V3h2v6h1V3h1Zm9 0h2v5h2v2h-2v11h-2V10a4 4 0 0 1-4-4V3h2v5a2 2 0 0 0 2 2V3Z" />
+          </svg><span>View Menu</span></a>
+        <a href="../index.html"><svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="m12 3 9 8h-2v9h-5v-6h-4v6H5v-9H3l9-8Z" />
+          </svg><span>Open Storefront</span></a>
+      </nav>
+    </aside>
+    <div class="main">
+      <header class="top">
+        <div style="display:flex;align-items:center;min-width:0"><button id="mobile" class="mobile" type="button"
+            aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="side"
+            title="Toggle navigation menu"><span class="hamburger-bars"
+              aria-hidden="true"><i></i><i></i><i></i></span></button>
+          <div>
+            <h1>Product Management</h1>
+          </div>
+        </div>
+        <div class="top-actions"><button class="icon-btn" type="button" title="Refresh products"
+            aria-label="Refresh products" onclick="load()"><svg viewBox="0 0 24 24" width="18" height="18" fill="none"
+              stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
+              aria-hidden="true">
+              <path d="M20 7v5h-5" />
+              <path d="M4 17v-5h5" />
+              <path d="M5.6 9A7 7 0 0 1 17.5 6.5L20 12M4 12l2.5 5.5A7 7 0 0 0 18.4 15" />
+            </svg></button>
+          <div class="avatar" role="img" title="Administrator" aria-label="Administrator profile">A</div>
+        </div>
+      </header>
+      <main class="content">
+        <div class="intro">
+          <div>
+            <h2>Products</h2>
+            <p>Add drinks, update prices and photos, and manage availability.</p>
+          </div><button class="btn primary" id="newProduct" type="button">+ Add Product</button>
+        </div>
+        <div id="message"></div>
+        <div class="catalog-stats" role="group" aria-label="Product overview">
+          <div class="catalog-stat"><span>Total Products</span><strong id="statAll">0</strong></div>
+          <div class="catalog-stat"><span>Available</span><strong id="statActive">0</strong></div>
+          <div class="catalog-stat"><span>Out of Stock</span><strong id="statOut">0</strong></div>
+          <div class="catalog-stat"><span>Hidden</span><strong id="statHidden">0</strong></div>
+        </div>
+        <div class="layout">
+          <section class="panel products-workspace">
+            <div class="head">
+              <h3>Product List</h3><span id="count"></span>
+            </div>
+            <div class="tools">
+              <div class="search"><input id="search" type="search"
+                  placeholder="Search by product name, description, or category"></div><select id="catFilter">
+                <option value="all">All categories</option>
+              </select><select id="statusFilter">
+                <option value="all">All availability</option>
+                <option value="active">Available</option>
+                <option value="out_of_stock">Out of Stock</option>
+                <option value="hidden">Hidden</option>
+              </select>
+            </div>
+            <div class="tableWrap">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th class="check-col"><input class="row-check" id="selectAll" type="checkbox"
+                        aria-label="Select all visible products"></th>
+                    <th>Product</th>
+                    <th>Category</th>
+                    <th>Price</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="rows"></tbody>
+              </table>
+              <div class="empty" id="empty">Loading...</div>
+            </div>
+            <div class="pager"><span id="pageInfo"></span>
+              <div><button class="btn small" id="prev">Previous</button> <button class="btn small"
+                  id="next">Next</button></div>
+            </div>
+          </section>
+        </div>
+        <datalist id="categorySuggestions"></datalist>
+        <div class="batch-toolbar" id="batchToolbar" hidden><span id="batchCount">0 Selected</span><button
+            class="btn small" id="batchEdit" type="button"
+            title="Open each selected product in the edit form, one after another">Edit selected</button><button
+            class="btn small" id="batchBulk" type="button"
+            title="Apply one category or status to all selected products">Bulk change</button><button
+            class="btn small danger" id="batchDelete" type="button">Delete</button><button class="btn small"
+            id="clearSelection" type="button">Clear</button></div>
+        <div class="admin-modal" id="productModal" hidden>
+          <div class="admin-modal-backdrop" data-close-product-modal></div>
+          <section class="admin-modal-card admin-product-modal" role="dialog" aria-modal="true"
+            aria-labelledby="formTitle">
+            <header class="admin-modal-head">
+              <div><span class="admin-modal-eyebrow">Products</span>
+                <h3 id="formTitle">Add Product</h3>
+                <div class="step-nav" id="stepNav" hidden><button class="btn small" id="stepPrev" type="button">‹
+                    Prev</button><span class="step-label" id="stepLabel" aria-live="polite">Editing 1 of 1</span><button
+                    class="btn small" id="stepNext" type="button">Next ›</button></div>
+              </div><button class="admin-modal-close" id="closeProductModal" type="button"
+                aria-label="Close product form">×</button>
+            </header>
+            <form class="form admin-modal-form" id="form"><input type="hidden" id="id">
+              <div class="admin-modal-grid">
+                <div class="admin-modal-column">
+                  <div class="form-section-title">Product details</div>
+                  <div class="field"><label>Product Name</label><input id="name" placeholder="Spanish Latte"></div>
+                  <div class="field"><label>Description</label><textarea id="description"
+                      placeholder="Describe the drink..."></textarea></div>
+                  <div class="two">
+                    <div class="field"><label>Price</label>
+                      <div class="price-prefix"><span>₱</span><input id="price" type="number" step="0.01" min="0"
+                          inputmode="decimal" placeholder="45.00"></div>
+                    </div>
+                    <div class="field"><label>Category</label><input id="category" list="categorySuggestions"
+                        placeholder="Enter any category">
+                      <div class="helper">Enter a new category or choose an existing suggestion.</div>
+                    </div>
+                  </div>
+                  <div class="form-section-title compact">Availability</div>
+                  <div class="field"><label>Status</label><select id="status">
+                      <option value="active">Available</option>
+                      <option value="out_of_stock">Out of Stock</option>
+                      <option value="hidden">Hidden</option>
+                    </select></div>
+                  <div class="admin-check-grid"><label><input id="isBestseller" type="checkbox"> <span>Best Seller
+                        fallback</span></label><label><input id="isSignature" type="checkbox"> <span>Signature
+                        Drink</span></label></div>
+                </div>
+                <div class="admin-modal-column">
+                  <div class="form-section-title">Product photos</div>
+                  <div class="field"><label>Product Images</label><label
+                      class="drop admin-upload-drop custom-upload-drop" id="productDrop" for="images"><input id="images"
+                        type="file" accept="image/jpeg,image/png,image/webp" multiple><span class="upload-icon"
+                        aria-hidden="true">↑</span><span class="upload-copy"><strong>Drop product photos
+                          here</strong><span class="helper" style="display:block">or click to browse · JPG, PNG, WebP ·
+                          up to 50 MB each.</span></span></label>
+                    <div class="images" id="imageBox"></div>
+                  </div>
+                </div>
+              </div>
+              <footer class="admin-modal-actions"><span class="updated-at" id="updatedAt"></span><button class="btn"
+                  id="clear" type="button">Cancel</button><button class="btn primary" id="saveProduct"
+                  type="submit">Save Product</button><button class="btn primary" id="saveNext" type="submit" hidden>Save
+                  &amp; next</button></footer>
+            </form>
+          </section>
+        </div>
+      </main>
+    </div>
+  </div>
+  <div class="admin-modal" id="bulkModal" hidden>
+    <div class="admin-modal-backdrop" data-close-bulk-modal></div>
+    <section class="admin-modal-card admin-bulk-modal" role="dialog" aria-modal="true" aria-labelledby="bulkTitle">
+      <header class="admin-modal-head">
+        <div><span class="admin-modal-eyebrow">Selected products</span>
+          <h3 id="bulkTitle">Edit selected products</h3>
+        </div><button class="admin-modal-close" id="closeBulkModal" type="button"
+          aria-label="Close bulk edit">×</button>
+      </header>
+      <form id="bulkForm" class="admin-modal-form">
+        <div class="field"><label>Category</label><input id="bulkCategory"
+            placeholder="Leave blank to keep existing categories"></div>
+        <div class="field"><label>Status</label><select id="bulkStatus">
+            <option value="">Keep existing status</option>
+            <option value="active">Available</option>
+            <option value="out_of_stock">Out of Stock</option>
+            <option value="hidden">Hidden</option>
+          </select></div>
+        <footer class="admin-modal-actions"><button class="btn" id="cancelBulk" type="button">Cancel</button><button
+            class="btn primary" type="submit">Apply Changes</button></footer>
+      </form>
+    </section>
+  </div>
+  <script src="js/products.js"></script>
+  <script src="js/notifications.js"></script>
+  <script src="../js/animations.js"></script>
+  <script src="js/global.js"></script>
+  <script src="../js/enhancements.js" defer></script>
+</body>
+
+</html>
