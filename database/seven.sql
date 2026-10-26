@@ -44,6 +44,8 @@ CREATE TABLE products (
   description TEXT NULL,
   category VARCHAR(100) NOT NULL,
   price DECIMAL(10,2) NOT NULL,
+  large_price DECIMAL(10,2) NULL,
+  catalog_version TINYINT UNSIGNED NOT NULL DEFAULT 0,
   available TINYINT(1) NOT NULL DEFAULT 1,
   status ENUM('active','out_of_stock','hidden') NOT NULL DEFAULT 'active',
   is_bestseller TINYINT(1) NOT NULL DEFAULT 0,
